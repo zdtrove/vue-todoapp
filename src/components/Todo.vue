@@ -6,7 +6,7 @@
                     <Lists />
                 </v-flex>
                 <v-flex lg6 pr-2 pl-2 style="max-height: 96.3vh">
-                    <Tasks />
+                    <router-view name="tasks" :key="$route.fullPath"></router-view>
                 </v-flex>
                 <v-flex lg3 pl-2>
                     <OptionsBar />
@@ -21,15 +21,16 @@
                 </v-flex>
             </v-layout>
         </v-footer>
+        <Notification />
     </div>
 </template>
 
 <script>
-    import Lists from './Lists'
-    import Tasks from './Tasks'
-    import OptionsBar from './OptionsBar'
+    import Lists from './Lists/Lists'
+    import OptionsBar from './OptionsBar/OptionsBar'
+    import Notification from './Notification'
     export default {
         name: 'todo',
-        components: { Lists, Tasks, OptionsBar }
+        components: { Lists, OptionsBar, Notification }
     }
 </script>

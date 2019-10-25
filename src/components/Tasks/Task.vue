@@ -1,7 +1,7 @@
 <template>
     <v-list-item @click.prevent="toggle(index)">
         <v-list-item-action>
-            <v-btn icon>
+            <v-btn :to="{ name: 'notes', params: { taskId: task.id } }" icon>
                 <v-icon>edit</v-icon>
             </v-btn>
         </v-list-item-action>
@@ -27,6 +27,12 @@
             toggle(index) {
                 // eslint-disable-next-line no-console
                 console.log(index);
+            },
+            openModal() {
+                this.$router.push({
+                    name: 'notes',
+                    params: { taskId: this.task.id }
+                })
             }
         }
     }

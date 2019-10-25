@@ -1,14 +1,15 @@
 <template>
-    <v-navigation-drawer style="width: 100%">
+    <v-navigation-drawer permanent style="width: 100%">
         <v-toolbar color="blue" dark>
-            <v-toolbar-title>Your lists</v-toolbar-title>
+            <v-toolbar-title v-if="!DISPLAY_SEARCH_LIST">Your lists</v-toolbar-title>
+            <SearchBar v-if="DISPLAY_SEARCH_LIST" />
             <v-spacer></v-spacer>
-            <v-btn icon>
+            <v-btn icon @click.prevent="toggleSearchList()">
                 <v-icon>search</v-icon>
             </v-btn>
         </v-toolbar>
         <v-list>
-            <v-list-item color="blue">
+            <v-list-item color="blue" @click.prevent="openNewListForm()" v-if="!isOpen">
                 <v-list-item-content>
                     <v-list-item-title>Create a new list</v-list-item-title>
                 </v-list-item-content>
@@ -18,10 +19,14 @@
                     </v-list-item-title>
                 </v-list-item-action>
             </v-list-item>
+            <v-list-item v-if="openNewListFormValue">
+                <NewList />
+            </v-list-item>
         </v-list>
         <v-divider></v-divider>
         <v-list style="height: calc(100% - 128px); overflow-y: scroll">
             <v-list-item
+                :to="{ name: 'tasks', params: { id: list.id } }"
                 v-for="(list, key) in lists"
                 v-bind:key="key"
             >
@@ -39,9 +44,14 @@
     }
 </style>
 <script>
+    import SearchBar from '../SearchBar'
+    import { mapGetters } from 'vuex'
+    import NewList from './NewList'
     export default {
         name: 'lists',
+        components: { SearchBar, NewList },
         data: () => ({
+            isOpen: false,
             lists: [
                 {
                     id: 1,
@@ -64,146 +74,165 @@
                     tasks: 90
                 },
                 {
-                    id: 1,
+                    id: 5,
                     title: "List",
                     tasks: 12
                 },
                 {
-                    id: 2,
+                    id: 6,
                     title: "List",
                     tasks: 45
                 },
                 {
-                    id: 3,
+                    id: 7,
                     title: "List",
                     tasks: 57
                 },
                 {
-                    id: 4,
+                    id: 8,
                     title: "List",
                     tasks: 90
                 },
                 {
-                    id: 1,
+                    id: 9,
                     title: "List",
                     tasks: 12
                 },
                 {
-                    id: 2,
+                    id: 10,
                     title: "List",
                     tasks: 45
                 },
                 {
-                    id: 3,
+                    id: 11,
                     title: "List",
                     tasks: 57
                 },
                 {
-                    id: 4,
+                    id: 12,
                     title: "List",
                     tasks: 90
                 },
                 {
-                    id: 1,
+                    id: 13,
                     title: "List",
                     tasks: 12
                 },
                 {
-                    id: 2,
+                    id: 14,
                     title: "List",
                     tasks: 45
                 },
                 {
-                    id: 3,
+                    id: 15,
                     title: "List",
                     tasks: 57
                 },
                 {
-                    id: 4,
+                    id: 16,
                     title: "List",
                     tasks: 90
                 },
                 {
-                    id: 1,
+                    id: 17,
                     title: "List",
                     tasks: 12
                 },
                 {
-                    id: 2,
+                    id: 18,
                     title: "List",
                     tasks: 45
                 },
                 {
-                    id: 3,
+                    id: 19,
                     title: "List",
                     tasks: 57
                 },
                 {
-                    id: 4,
+                    id: 20,
                     title: "List",
                     tasks: 90
                 },
                 {
-                    id: 1,
+                    id: 21,
                     title: "List",
                     tasks: 12
                 },
                 {
-                    id: 2,
+                    id: 22,
                     title: "List",
                     tasks: 45
                 },
                 {
-                    id: 3,
+                    id: 23,
                     title: "List",
                     tasks: 57
                 },
                 {
-                    id: 4,
+                    id: 24,
                     title: "List",
                     tasks: 90
                 },
                 {
-                    id: 1,
+                    id: 25,
                     title: "List",
                     tasks: 12
                 },
                 {
-                    id: 2,
+                    id: 26,
                     title: "List",
                     tasks: 45
                 },
                 {
-                    id: 3,
+                    id: 27,
                     title: "List",
                     tasks: 57
                 },
                 {
-                    id: 4,
+                    id: 28,
                     title: "List",
                     tasks: 90
                 },
                 {
-                    id: 1,
+                    id: 29,
                     title: "List",
                     tasks: 12
                 },
                 {
-                    id: 2,
+                    id: 30,
                     title: "List",
                     tasks: 45
                 },
                 {
-                    id: 3,
+                    id: 31,
                     title: "List",
                     tasks: 57
                 },
                 {
-                    id: 4,
+                    id: 32,
                     title: "List",
                     tasks: 90
                 }
             ]
-        })
+        }),
+        computed: {
+            ...mapGetters(['DISPLAY_SEARCH_LIST']),
+            openNewListFormValue: {
+                get () {
+                    return this.$store.getters.NEW_LIST_FORM;
+                },
+                set (value) {
+                    this.$store.commit("SET_NEW_LIST_FORM", value);
+                }
+            }
+        },
+        methods: {
+            toggleSearchList () {
+                this.$store.commit("SET_DISPLAY_SEARCH_LIST", !this.DISPLAY_SEARCH_LIST);
+            },
+            openNewListForm() {
+                this.$store.commit("SET_NEW_LIST_FORM", true);
+            }
+        }
     }
 </script>
