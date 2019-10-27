@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import vuetify from './plugins/vuetify.js'
 import VueRouter from 'vue-router'
+import axios from 'axios'
 
 import store from './store/store'
 
@@ -13,6 +14,7 @@ import NotesModal from './components/Modals/NotesModal'
 
 Vue.config.productionTip = false
 Vue.use(VueRouter)
+axios.defaults.baseUrl = 'http://localhost:8000/api/'
 
 const routes = [
     {
